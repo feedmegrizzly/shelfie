@@ -19,9 +19,10 @@ massive(process.env.CONNECTION_STRING).then(db => {
 
 app.get('/api/products', (req, res) => {
     const db = req.app.get('db');
-    db.products.find().then(result => {
-        res.send(result)
-    })
+    db.products.find()
+        .then(result => {
+            res.send(result)
+        })
 });
 
 app.post('/api/products', (req, res) => {
@@ -36,6 +37,17 @@ app.post('/api/products', (req, res) => {
         });
 })
 
+app.delete('/api/products/:id', (req, res) => {
+    const db = req.app.get('db');
+    const {id} = req.params;
+    db.delete([id])
+    .then(result => {
+        return db.getAllProducts()
+    })
+    .then(result => {
+        res.send(result)
+    });
+})
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

@@ -14,6 +14,7 @@ class Form extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+      
     }
 
     handleChange(e) {
@@ -26,6 +27,7 @@ class Form extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        // debugger
         let { productName, price, url } = this.state;
         if (productName) {
             let product = {
@@ -34,7 +36,8 @@ class Form extends React.Component {
                 price
             }
             axios.post('/api/products', product)
-                .then(res => {
+            .then(res => {
+                // debugger
                     this.props.addProduct(res.data);
                     this.cancel();
                 })
@@ -43,6 +46,8 @@ class Form extends React.Component {
             console.log('Product name missing');
         }
     }
+
+   
 
     cancel() {
         this.setState({
@@ -56,6 +61,7 @@ class Form extends React.Component {
 
 
     render() {
+        console.log(this.props);
         return (
             <form className="form">
                 <input type="url" value={this.state.url} name="url" onChange={this.handleChange} placeholder="Image URL" /> <br />

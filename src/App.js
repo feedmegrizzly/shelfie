@@ -13,7 +13,8 @@ class App extends Component {
     this.state = {
       products: [],
     }
-    this.addProduct=this.addProduct.bind(this);
+    this.addProduct = this.addProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
 
 
@@ -31,13 +32,23 @@ class App extends Component {
     });
   }
 
+  deleteProduct(id) {
+    debugger
+    axios.delete(`/api/products/${id}`)
+      .then(res => {
+        debugger
+        this.setState({ products: res.data })
+      })
+      .catch(err => console.log('delete product error', err))
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-        <Header />
-        <Form addProdcut = {this.addProduct}/>
-        <Dashboard products={this.state.products} />
+          <Header />
+          <Form addProduct={this.addProduct} />
+          <Dashboard products={this.state.products} deleteProduct={this.deleteProduct} />
         </header>
 
       </div>
